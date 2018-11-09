@@ -8,24 +8,26 @@ services:
     volumes:
       - "$service_dir/conf/frp/frpc.ini:/etc/frp/frpc.ini:ro"
   mysql:
-    image: mysql
+    image: mysql:5
     restart: always
     environment:
-      MYSQL_DATABASE=jumpserver
-      MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=jumpserver
+      - MYSQL_ROOT_PASSWORD=password
     volumes: 
-     - "$data_dir/mysql:/var/lib/mysql"
-     - "$service_dir/conf/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql"
+      - "$data_dir/mysql:/var/lib/mysql"
+      - "$service_dir/conf/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql"
   jumpserver:
     image: wojiushixiaobai/jumpserver
     restart: always
     environment: 
-      DB_ENGINE=mysql
-      DB_HOST=mysql
-      DB_PORT=3306
-      DB_USER=root
-      DB_PASSWORD=password
-      DB_NAME=jumpserver
+      - DB_ENGINE=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=password
+      - DB_NAME=jumpserver
+    depends_on: 
+      - mysql
     ports:
       - '$acl_ip:22:2222'
       - '$acl_ip:80:80'
