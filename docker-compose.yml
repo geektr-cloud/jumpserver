@@ -1,0 +1,22 @@
+version: '3'
+services:
+  frp_client:
+    image: geektr/frp
+    restart: always
+    env_file:
+      - "$secrets_dir/frp/frp.env"
+    volumes:
+      - "$service_dir/conf/frp/frpc.ini:/etc/frp/frpc.ini:ro"
+  jumpserver:
+    image: wojiushixiaobai/jumpserver
+    restart: always
+    ports:
+      - '$acl_ip:22:2222'
+      - '$acl_ip:80:80'
+    volumes:
+      - '$data_dir/jumpserver:/opt/jumpserver/data'
+      - '$data_dir/coco:/opt/coco/keys'
+      - '$data_dir/guacamole:/config/guacamole/keys'
+      - '$data_dir/mysql:/var/lib/mysql'
+volumes:
+  caddy-storage:
