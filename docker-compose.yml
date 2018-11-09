@@ -33,5 +33,3 @@ services:
       - '$data_dir/jumpserver:/opt/jumpserver/data'
       - '$data_dir/coco:/opt/coco/keys'
       - '$data_dir/guacamole:/config/guacamole/keys'
-volumes:
-  caddy-storage:
